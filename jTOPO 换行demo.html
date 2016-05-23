@@ -31,19 +31,7 @@
 					y+= lineHeight;
 				}
 			  };    
-			 
-				
-            	var canvas = document.getElementById('canvas'); //舞台           
-            	var stage = new JTopo.Stage(canvas);//场景
-            //显示工具
-            	var scene = new JTopo.Scene(stage);
-
-            	var node = new JTopo.Node("Hello");        
-				
-					node.paintText = function(a){
-
-
-
+					JTopo.Node.prototype.paintText = function(a){
 						var b = this.text;
 						if (null != b && "" != b) {
 							a.beginPath(),
@@ -55,7 +43,16 @@
 							a.wrapText(b, e.x, e.y),
 									a.closePath()
 						}
-                }				
+                }	
+				
+            	var canvas = document.getElementById('canvas'); //舞台           
+            	var stage = new JTopo.Stage(canvas);//场景
+            //显示工具
+            	var scene = new JTopo.Scene(stage);
+
+            	var node = new JTopo.Node("Hello");        
+				
+							
 				node.textPosition ="Middle_Center";
 
             	node.setBound(10, 10,200,200);
