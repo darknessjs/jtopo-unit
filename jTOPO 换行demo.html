@@ -1,0 +1,62 @@
+<!DOCTYPE html >
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>JTOPO</title>
+		<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js" type="text/javascript"></script>
+		<script src="jtp/jtopo-0.4.8-min.js" type="text/javascript"></script>	
+		
+		<script type="text/javascript">
+			 $(document).ready(function(){
+			 
+			 CanvasRenderingContext2D.prototype.wrapText = function(str,x,y){
+				var textArray = str.split('\n');
+				if(textArray==undefined||textArray==null)return false;
+
+				var rowCnt = textArray.length;
+				var i = 0,imax  = rowCnt,maxLength = 0;maxText = textArray[0];
+				for(;i<imax;i++){
+					var nowText = textArray[i],textLength = nowText.length;
+					if(textLength >=maxLength){
+						maxLength = textLength;
+						maxText = nowText;
+					}
+				}
+				var maxWidth = this.measureText(maxText).width;
+				var lineHeight = this.measureText("元").width;
+				x-= lineHeight*2;
+				for(var j= 0;j<textArray.length;j++){
+					var words = textArray[j];
+					this.fillText(words,-(maxWidth/2),y);
+					y+= lineHeight;
+				}
+			  };    
+			 
+				
+            	var canvas = document.getElementById('canvas'); //舞台           
+            	var stage = new JTopo.Stage(canvas);//场景
+            //显示工具
+            	var scene = new JTopo.Scene(stage);
+
+            	var node = new JTopo.Node("Hello");        
+				
+					node.paintText = function(a){
+					a.beginPath(),
+					a.font = this.font,
+					a.wrapText(this.text,this.height/2,this.height);
+					a.closePath()   
+                }				
+            	node.setLocation(300, 200);
+				node.fontColor="0,0,0"
+				node.text="这是测试换行的\n这是测试换行第二行的再加\n一行再加一行/n再加一行再加一行再加一行"
+            	scene.add(node);
+			
+        });
+        
+		</script>
+	</head>
+	<body>
+			<canvas width="800"height="500"id="canvas"style=" background-color:#EEEEEE; border:1px solid #444;">
+			</canvas>
+	</body>
+</html>
