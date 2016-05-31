@@ -1,0 +1,91 @@
+<!DOCTYPE html >
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>JTOPO特殊虚线</title>
+	<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js" type="text/javascript"></script>
+	<script src="jtp/jtopo-0.4.8-min.js" type="text/javascript"></script>
+
+	<script type="text/javascript">
+		var img;
+		$(document).ready(function(){
+			CanvasRenderingContext2D.prototype.JtopoDrawPointCircle=function(a,b,c,d,e,f,g){
+				img=g
+				this.strokeStyle=e;
+				this.fillStyle=f;
+				var animespeed=(new Date())/50;
+				var xs=c- a,
+						xy=d- b,
+						l = Math.floor(Math.sqrt(xs * xs + xy * xy)),
+						j=l;
+						xl=xs/ l,
+						yl=xy/l;
+				var colorpoint=parseInt(animespeed%l);
+				r=5;
+				for(var i=0;i<j;i=i+r*3){
+					if(colorpoint>i-r*2 && colorpoint<=i+r ){
+						this.drawImage(g,a+i*xl-5,b+i*yl-5,10,10)
+//						this.drawImage(img,a+i*xl,b+i*yl,r,0,2*Math.PI,10,10);
+
+					}else{
+						this.beginPath();
+						this.arc(a+i*xl,b+i*yl,r,0,2*Math.PI);
+						this.fill();
+						this.stroke();
+					}
+
+
+
+
+				}
+			};
+
+
+
+
+
+
+			var canvas = document.getElementById('canvas'); //舞台
+			var stage = new JTopo.Stage(canvas);//场景
+			//显示工具
+			var scene = new JTopo.Scene(stage);
+
+			var node = new JTopo.Node("Hello");
+			node.setLocation(10, 10);
+			scene.add(node);
+
+			var node2 = new JTopo.Node("Hello");
+			node2.setLocation(400, 200);
+			scene.add(node2);
+			var link1=new JTopo.Link(node,node2);
+			link1.PointCircleColor="rgb(255,255,0)";
+			link1.PointAnimeImg=$("#testimg")[0];
+			link1.strokeColor="255,0,0";
+			link1.paintPath = function(a, b) {
+				if (this.nodeA === this.nodeZ) return void this.paintLoop(a);
+				a.beginPath(),
+						a.moveTo(b[0].x, b[0].y);
+				for (var c = 1; c < b.length; c++) {
+
+					null == this.dashedPattern ? (
+							(null==this.PointCircleColor?a.lineTo(b[c].x, b[c].y):a.JtopoDrawPointCircle(b[c - 1].x, b[c - 1].y, b[c].x, b[c].y, a.strokeStyle,this.PointCircleColor,this.PointAnimeImg))
+					) : a.JTopoDashedLineTo(b[c - 1].x, b[c - 1].y, b[c].x, b[c].y, this.dashedPattern)
+				};
+				if (a.stroke(), a.closePath(), null != this.arrowsRadius) {
+					var d = b[b.length - 2],
+							e = b[b.length - 1];
+					this.paintArrow(a, d, e)
+				}
+			};
+			scene.add(link1)
+
+		});
+
+	</script>
+</head>
+<body>
+<canvas width="800"height="500"id="canvas"style=" background-color:#EEEEEE; border:1px solid #444;">
+</canvas>
+<img src="img/testspecialline1.png" id="testimg">
+</body>
+</html>
