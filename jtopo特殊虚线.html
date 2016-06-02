@@ -63,14 +63,14 @@
 			var link1=new JTopo.Link(node,node2);
 			link1.PointCircleColor="rgb(255,255,0)";//圆心
 			var linkpointimage=new Image();//设置图片
-			linkpointimage.src="img/testspecialline1.png"
+			linkpointimage.src="img/testspecialline1.png";
 			link1.PointAnimeImg=linkpointimage;
 
 			link1.strokeColor="255,0,255";//圆边
 
 			link1.paintPath = function(a, b) {
 				if (this.nodeA === this.nodeZ) return void this.paintLoop(a);
-				a.beginPath(),
+				a.beginPath();
 						a.moveTo(b[0].x, b[0].y);
 				for (var c = 1; c < b.length; c++) {
 
