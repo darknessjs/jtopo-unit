@@ -1,0 +1,58 @@
+<!DOCTYPE html >
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>连线上的跟随节点附加</title>
+	<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js" type="text/javascript"></script>
+	<script src="jtp/jtopo-0.4.8-min.js" type="text/javascript"></script>
+
+	<script type="text/javascript">
+		$(document).ready(function(){
+
+
+
+			var canvas = document.getElementById('canvas'); //舞台
+			var stage = new JTopo.Stage(canvas);//场景
+			//显示工具
+			var scene = new JTopo.Scene(stage);
+
+			JTopo.Link.prototype.setcnodeposition=function(){
+				if(this.cnode){
+					this.cnode.cx=this.nodeA.cx+(this.nodeZ.cx-this.nodeA.cx)/2;
+					this.cnode.cy=this.nodeA.cy+(this.nodeZ.cy-this.nodeA.cy)/2;
+				}
+			};
+
+			JTopo.Link.prototype.addcenternode=function(){
+				this.cnode=new JTopo.CircleNode("")
+				this.cnode.radius=4;
+				scene.add(this.cnode);
+				this.cnodeanime=window.setInterval(this.setcnodeposition.bind(this),1e3/24);
+			};
+			var node = new JTopo.Node("Hello");
+			node.setLocation(10, 10);
+			scene.add(node);
+
+			var node2 = new JTopo.Node("Hello");
+			node2.setLocation(400, 200);
+			scene.add(node2);
+			var link1=new JTopo.Link(node,node2);
+			link1.addcenternode();
+			link1.strokeColor="255,0,255";//圆边
+			scene.add(link1);
+
+			var node3=new JTopo.Node("Hello");
+			node3.setLocation(250,100);
+			scene.add(node3);
+			var link2=new JTopo.Link(node3,link1.cnode);
+			scene.add(link2)
+
+		});
+
+	</script>
+</head>
+<body>
+<canvas width="800" height="500"id="canvas"style=" background-color:#EEEEEE; border:1px solid #444;">
+</canvas>
+</body>
+</html>
