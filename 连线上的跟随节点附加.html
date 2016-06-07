@@ -16,18 +16,18 @@
 			//显示工具
 			var scene = new JTopo.Scene(stage);
 
-			JTopo.Link.prototype.setcnodeposition=function(){
-				if(this.cnode){
-					this.cnode.cx=this.nodeA.cx+(this.nodeZ.cx-this.nodeA.cx)/2;
-					this.cnode.cy=this.nodeA.cy+(this.nodeZ.cy-this.nodeA.cy)/2;
-				}
-			};
+//			JTopo.Link.prototype.setcnodeposition=function(){
+//				if(this.cnode){
+//					this.cnode.cx=this.nodeA.cx+(this.nodeZ.cx-this.nodeA.cx)/2;
+//					this.cnode.cy=this.nodeA.cy+(this.nodeZ.cy-this.nodeA.cy)/2;
+//				}
+//			};
 
 			JTopo.Link.prototype.addcenternode=function(){
 				this.cnode=new JTopo.CircleNode("")
 				this.cnode.radius=4;
 				scene.add(this.cnode);
-				this.cnodeanime=window.setInterval(this.setcnodeposition.bind(this),1e3/24);
+//				this.cnodeanime=window.setInterval(this.setcnodeposition.bind(this),1e3/24);
 			};
 			var node = new JTopo.Node("Hello");
 			node.setLocation(10, 10);
@@ -40,6 +40,26 @@
 			link1.addcenternode();
 			link1.strokeColor="255,0,255";//圆边
 			scene.add(link1);
+			link1.paintPath=function(a, b) {
+				if(this.cnode){
+					this.cnode.cx=this.nodeA.cx+(this.nodeZ.cx-this.nodeA.cx)/2;
+					this.cnode.cy=this.nodeA.cy+(this.nodeZ.cy-this.nodeA.cy)/2;
+				}
+				if (this.nodeA === this.nodeZ) return void this.paintLoop(a);
+				a.beginPath(),
+						a.moveTo(b[0].x, b[0].y);
+				for (var c = 1; c < b.length; c++) {
+
+					null == this.dashedPattern ? (
+							(null==this.PointPathColor?a.lineTo(b[c].x, b[c].y):a.JtopoDrawPointPath(b[c - 1].x, b[c - 1].y, b[c].x, b[c].y, a.strokeStyle,this.PointPathColor))
+					) : a.JTopoDashedLineTo(b[c - 1].x, b[c - 1].y, b[c].x, b[c].y, this.dashedPattern)
+				};
+				if (a.stroke(), a.closePath(), null != this.arrowsRadius) {
+					var d = b[b.length - 2],
+							e = b[b.length - 1];
+					this.paintArrow(a, d, e)
+				}
+			};
 
 			var node3=new JTopo.Node("Hello");
 			node3.setLocation(250,100);
