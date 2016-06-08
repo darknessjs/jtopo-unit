@@ -22,6 +22,7 @@
 		var imgnode=new JTopo.Node();
 		imgnode.setSize(width?width:16,height?height:16)
 		imgnode.setImage(imgurl);
+		imgnode.zIndex=2.5
 		var thislink=this;
 		function imgnodeanime(){
 			var xs=thislink.nodeA.cx- thislink.nodeZ.cx,
@@ -30,11 +31,12 @@
 				j=l;
 			xl=xs/ l,
 					yl=xy/l;
-			var animespeed=(new Date()/100);
+			var animespeed=(new Date()/33);
 			var colorpoint=parseInt(animespeed%l);
 			imgnode.rotate=(Math.atan(xy/xs));
 			imgnode.cx=thislink.nodeA.cx-colorpoint*xl;
 			imgnode.cy=thislink.nodeA.cy-colorpoint*yl;
+
 			window.requestAnimationFrame(imgnodeanime);
 		}
 		window.requestAnimationFrame(imgnodeanime);
