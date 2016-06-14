@@ -14,11 +14,8 @@
 </body>
 </html>
 <script type="text/javascript">
-
 	window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
-
 	JTopo.Link.prototype.drawanimepic=function(imgurl,scene,width,height){
-
 		var imgnode=new JTopo.Node();
 		imgnode.setSize(width?width:16,height?height:16)
 		imgnode.setImage(imgurl);
@@ -29,44 +26,29 @@
 				xy=thislink.nodeA.cy- thislink.nodeZ.cy,
 				l = Math.floor(Math.sqrt(xs * xs + xy * xy)),
 				j=l;
-			xl=xs/ l,
-					yl=xy/l;
+			xl=xs/ l, yl=xy/l;
 			var animespeed=(new Date()/33);
 			var colorpoint=parseInt(animespeed%l);
 			imgnode.rotate=(Math.atan(xy/xs));
 			imgnode.cx=thislink.nodeA.cx-colorpoint*xl;
 			imgnode.cy=thislink.nodeA.cy-colorpoint*yl;
-
 			window.requestAnimationFrame(imgnodeanime);
 		}
 		window.requestAnimationFrame(imgnodeanime);
-
-
 		scene.add(imgnode);
-
 	};
-
-
-
-
-
 	var canvas = document.getElementById('canvas'); //舞台
 	var stage = new JTopo.Stage(canvas);//场景
 	//显示工具
 	var scene = new JTopo.Scene(stage);
-
 	var node = new JTopo.Node("Hello");
 	node.setLocation(10, 10);
 	scene.add(node);
-
 	var node2 = new JTopo.Node("Hello");
 	node2.setLocation(400, 200);
 	scene.add(node2);
 	var link1=new JTopo.Link(node,node2);
 	link1.drawanimepic("img/testspecialline1.png",scene);
 	link1.strokeColor="255,0,255";//圆边
-
 	scene.add(link1)
-
-
 </script>
