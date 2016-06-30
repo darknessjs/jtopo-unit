@@ -29,7 +29,7 @@
 			xl=xs/ l, yl=xy/l;
 			var animespeed=(new Date()/33);
 			var colorpoint=parseInt(animespeed%l);
-			imgnode.rotate=(Math.atan(xy/xs));
+			imgnode.rotate=(Math.atan(xy/xs))+(xs>0?Math.PI:0);
 			imgnode.cx=thislink.nodeA.cx-colorpoint*xl;
 			imgnode.cy=thislink.nodeA.cy-colorpoint*yl;
 			window.requestAnimationFrame(imgnodeanime);
