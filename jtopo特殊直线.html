@@ -17,6 +17,7 @@
 	window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
 	JTopo.Link.prototype.drawanimepic=function(imgurl,scene,width,height){
 		var imgnode=new JTopo.Node();
+
 		imgnode.setSize(width?width:16,height?height:16)
 		imgnode.setImage(imgurl);
 		imgnode.zIndex=2.5

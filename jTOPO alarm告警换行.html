@@ -1,0 +1,106 @@
+<!DOCTYPE html >
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>JTOPO文字换行demo</title>
+		<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js" type="text/javascript"></script>
+		<script src="jtp/jtopo-0.4.8-min.js" type="text/javascript"></script>	
+		
+		<script type="text/javascript">
+			 $(document).ready(function(){
+
+
+
+
+
+            	var canvas = document.getElementById('canvas'); //舞台           
+            	var stage = new JTopo.Stage(canvas);//场景
+            //显示工具
+            	var scene = new JTopo.Scene(stage);
+
+            	var node = new JTopo.Node("Hello");
+				node.textPosition ="Middle_Center";
+            	node.setBound(10, 10,200,200);
+				node.fontColor="0,0,0";
+
+
+
+				 node.alarm="这个是测试告警换行\n这个\n是测试\n告警换行";
+				 node.paintAlarmText = function(a) {
+
+
+
+
+
+
+
+
+
+
+
+
+
+					 if (null != this.alarm && "" != this.alarm) {
+						 var b = this.alarmColor || "255,0,0",
+								 c = this.alarmAlpha || .5;
+						 a.beginPath(),
+								 a.font = this.alarmFont || "10px 微软雅黑";
+						 var textArray = this.alarm.split('\n');
+						 var rowCnt = textArray.length;
+						 var i = 0,imax  = rowCnt,maxLength = 0;maxText = textArray[0];
+						 for(;i<imax;i++){
+							 var nowText = textArray[i],textLength = nowText.length;
+							 if(textLength >=maxLength){
+								 maxLength = textLength;
+								 maxText = nowText;
+							 }
+						 }
+						 var maxWidth = a.measureText(maxText).width;
+						 var lineHeight = a.measureText("元").width;
+						 var d =((a.measureText(this.alarm).width/rowCnt +6)>maxWidth?(a.measureText(this.alarm).width/rowCnt +6):maxWidth);
+						 var e = a.measureText("田").width ,
+								 f = this.width / 2 - d / 2,
+								 g = (-this.height / 2 - e*rowCnt ) -8;
+						            e=(e)*rowCnt;
+						 a.strokeStyle = "rgba(" + b + ", " + c + ")",
+								 a.fillStyle = "rgba(" + b + ", " + c + ")",
+								 a.lineCap = "round",
+								 a.lineWidth = 1,
+								 a.moveTo(f, g),
+								 a.lineTo(f + d, g),
+								 a.lineTo(f + d, g + e),
+								 a.lineTo(f + d / 2 + 6, g + e),
+								 a.lineTo(f + d / 2, g + e + 8),
+								 a.lineTo(f + d / 2 - 6, g + e),
+								 a.lineTo(f, g + e),
+								 a.lineTo(f, g),
+								 a.fill(),
+								 a.stroke(),
+								 a.closePath(),
+								 a.beginPath(),
+								 a.strokeStyle = "rgba(" + this.fontColor + ", " + this.alpha + ")",
+								 a.fillStyle = "rgba(" + this.fontColor + ", " + this.alpha + ")",
+								 (function(a,b,x,y,textArray){
+									 for(var j= 0;j<textArray.length;j++){
+										 var words = textArray[j];
+										 a.fillText(words,x,y);
+										 y+= lineHeight;
+									 }
+								 })(a,this,f,g+8,textArray),
+								 a.closePath()
+					 }
+				 }
+
+
+
+            	scene.add(node);
+			
+        });
+        
+		</script>
+	</head>
+	<body>
+			<canvas width="800"height="500"id="canvas"style=" background-color:#EEEEEE; border:1px solid #444;">
+			</canvas>
+	</body>
+</html>
