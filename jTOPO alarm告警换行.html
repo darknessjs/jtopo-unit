@@ -57,11 +57,13 @@
 						 }
 						 var maxWidth = a.measureText(maxText).width;
 						 var lineHeight = a.measureText("元").width;
+						 //算出alarm的最大的宽度
 						 var d =((a.measureText(this.alarm).width/rowCnt +6)>maxWidth?(a.measureText(this.alarm).width/rowCnt +6):maxWidth);
 						 var e = a.measureText("田").width ,
 								 f = this.width / 2 - d / 2,
 								 g = (-this.height / 2 - e*rowCnt ) -8;
 						            e=(e)*rowCnt;
+						 //绘制alarm的边框
 						 a.strokeStyle = "rgba(" + b + ", " + c + ")",
 								 a.fillStyle = "rgba(" + b + ", " + c + ")",
 								 a.lineCap = "round",
