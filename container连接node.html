@@ -18,7 +18,7 @@
 			//显示工具
 			var scene = new JTopo.Scene(stage);
 
-			var node = new JTopo.Container("Hello");
+			var node = new JTopo.Node("Hello");
 			node.setBound(10, 10,200,200);
 			node.fontColor="0,0,0";
 
@@ -28,21 +28,38 @@
 
 
 			scene.add(node);
-			var link=new JTopo.Link(node,container)
 
+			var link=new JTopo.Link(node,container)
 			link.getStartPosition = function() {
-				var b=this.nodeA,c=this.nodeZ;
-				var d = JTopo.util.lineF(b.cx, b.cy, c.cx, c.cy),
-						e = b.getBound(),
-						f = JTopo.util.intersectionLineBound(d, e);
-				return f
+				var a;
+				return (a = (function(thisl){
+					var b=thisl.nodeA,c=thisl.nodeZ;
+					var d = JTopo.util.lineF(b.cx, b.cy, c.cx, c.cy),
+							e = b.getBound(),
+							f = JTopo.util.intersectionLineBound(d, e);
+					return f
+				})(this)),
+				null == a && (a = {
+					x: this.nodeZ.cx,
+					y: this.nodeZ.cy
+				}),a
+
 			};
+
 			link.getEndPosition = function() {
-				var b=this.nodeZ,c=this.nodeA;
-				var d = JTopo.util.lineF(b.cx, b.cy, c.cx, c.cy),
-						e = b.getBound(),
-						f = JTopo.util.intersectionLineBound(d, e);
-				return f
+				var a;
+				return (a = (function(thisl){
+					var b=thisl.nodeZ,c=thisl.nodeA;
+					var d = JTopo.util.lineF(b.cx, b.cy, c.cx, c.cy),
+							e = b.getBound(),
+							f = JTopo.util.intersectionLineBound(d, e);
+					return f
+				})(this)),
+				null == a && (a = {
+					x: this.nodeZ.cx,
+					y: this.nodeZ.cy
+				}),a
+
 			};
 
 			scene.add(link);
