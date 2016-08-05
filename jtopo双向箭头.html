@@ -1,0 +1,72 @@
+<!DOCTYPE html >
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>JTOPO特殊直线</title>
+	<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js" type="text/javascript"></script>
+	<script src="jtp/jtopo-0.4.8-min.js" type="text/javascript"></script>
+
+
+</head>
+<body>
+<canvas width="800"height="500"id="canvas"style=" background-color:#EEEEEE; border:1px solid #444;">
+</canvas>
+</body>
+</html>
+<script type="text/javascript">
+	window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+
+	var canvas = document.getElementById('canvas'); //舞台
+	var stage = new JTopo.Stage(canvas);//场景
+	//显示工具
+	var scene = new JTopo.Scene(stage);
+	var node = new JTopo.Node("Hello");
+	node.setLocation(10, 10);
+	scene.add(node);
+	var node2 = new JTopo.Node("Hello");
+	node2.setLocation(400, 200);
+	scene.add(node2);
+	var link1=new JTopo.Link(node,node2);
+	link1.strokeColor="255,0,255";//圆边
+	link1.arrowsRadius=5;
+
+
+
+	link1.getStartPosition = function() {
+		var a;
+		return null != this.arrowsRadius && (a = (function(thisl){
+			var b=thisl.nodeA,c=thisl.nodeZ;
+			var d = JTopo.util.lineF(b.cx, b.cy, c.cx, c.cy),
+					e = b.getBound(),
+					f = JTopo.util.intersectionLineBound(d, e);
+			return f
+		})(this)),
+		null == a && (a = {
+			x: this.nodeA.cx,
+			y: this.nodeA.cy
+		}),
+				a
+	};
+
+
+			link1.paintPath = function(a, b) {
+				if (this.nodeA === this.nodeZ) return void this.paintLoop(a);
+				a.beginPath(),
+						a.moveTo(b[0].x, b[0].y);
+				for (var c = 1; c < b.length; c++) {
+
+					null == this.dashedPattern ? (
+							(null==this.PointPathColor?a.lineTo(b[c].x, b[c].y):a.JtopoDrawPointPath(b[c - 1].x, b[c - 1].y, b[c].x, b[c].y, a.strokeStyle,this.PointPathColor))
+					) : a.JTopoDashedLineTo(b[c - 1].x, b[c - 1].y, b[c].x, b[c].y, this.dashedPattern)
+				};
+				if (a.stroke(), a.closePath(), null != this.arrowsRadius) {
+					var d = b[b.length - 2],
+							e = b[b.length - 1];
+					this.paintArrow(a, d, e);
+					this.paintArrow(a, e, d)
+				}
+			};
+
+
+	scene.add(link1)
+</script>
