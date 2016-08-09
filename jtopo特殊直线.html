@@ -37,6 +37,7 @@
 		}
 		window.requestAnimationFrame(imgnodeanime);
 		scene.add(imgnode);
+		return imgnode;
 	};
 	var canvas = document.getElementById('canvas'); //舞台
 	var stage = new JTopo.Stage(canvas);//场景
@@ -49,7 +50,7 @@
 	node2.setLocation(400, 200);
 	scene.add(node2);
 	var link1=new JTopo.Link(node,node2);
-	link1.drawanimepic("img/testspecialline1.png",scene);
+	var arrownode=link1.drawanimepic("img/testspecialline1.png",scene);
 	link1.strokeColor="255,0,255";//圆边
 	scene.add(link1)
 </script>
