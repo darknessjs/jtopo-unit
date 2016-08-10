@@ -81,6 +81,9 @@
 		scene.add(imgnode);
 		return imgnode;
 	};
+
+
+
 	var canvas = document.getElementById('canvas'); //舞台
 	var stage = new JTopo.Stage(canvas);//场景
 	//显示工具
@@ -92,7 +95,31 @@
 	node2.setLocation(400, 200);
 	scene.add(node2);
 	var link1=new JTopo.Link(node,node2);
-	var arrownode=link1.drawanimepic("img/testspecialline1.png",scene);
+	var link2=new JTopo.Link(node2,node);
+	var link3=new JTopo.Link(node2,node);
+	var link4=new JTopo.Link(node2,node);
+	link2.drawanimepic("img/testspecialline1.png",scene);
+	link1.drawanimepic("img/testspecialline1.png",scene);
 	link1.strokeColor="255,0,255";//圆边
-	scene.add(link1)
+	scene.add(link4);
+	scene.add(link3);
+	scene.add(link2);
+	scene.add(link1);
+	[link1,link2,link3,link4].forEach((link)=>{
+			link.getPath = function() {
+			var a = [],
+					b = this.getStartPosition(),
+					c = this.getEndPosition();
+
+			return a.push({
+						x: b.x,
+						y: b.y
+					}),
+					a.push({
+						x: c.x,
+						y: c.y
+					}),
+					a
+		}
+	});
 </script>
