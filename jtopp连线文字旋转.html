@@ -1,0 +1,60 @@
+<!DOCTYPE html >
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>JTOPO连线文字旋转</title>
+	<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js" type="text/javascript"></script>
+	<script src="jtp/jtopo-0.4.8-min.js" type="text/javascript"></script>
+
+
+</head>
+<body>
+<canvas width="800"height="500"id="canvas"style=" background-color:#EEEEEE; border:1px solid #444;">
+</canvas>
+</body>
+</html>
+<script type="text/javascript">
+	var paintTextAndRotate = function(a, b) {
+      var c = b[0],
+        d = b[b.length - 1];
+      if (4 == b.length && (c = b[1], d = b[2]), this.text && this.text.length > 0) {
+        var e = (d.x + c.x) / 2 + this.textOffsetX,
+          f = (d.y + c.y) / 2 + this.textOffsetY;
+        var deltaY = d.y-c.y;
+        var deltaX = d.x-c.x;
+        var shouldRotate = Math.atan(deltaY/deltaX);
+        a.save(),
+          a.beginPath(),
+          a.translate(e,f);
+          a.rotate(shouldRotate);
+          e=0;f=0;
+          a.font = this.font;
+        var g = a.measureText(this.text).width,
+          h = a.measureText("田").width;
+        if (a.fillStyle = "rgba(" + this.fontColor + ", " + this.alpha + ")", this.nodeA === this.nodeZ) {
+          var j = this.bundleGap * (this.nodeIndex + 1) / 2,
+            e = this.nodeA.x + j * Math.cos(i),
+            f = this.nodeA.y + j * Math.sin(i);
+          a.fillText(this.text, e, f)
+        } else a.fillText(this.text, e - g / 2, f - h / 2);
+        a.stroke(),
+          a.closePath(),
+          a.restore()
+      }
+    }
+	var canvas = document.getElementById('canvas'); //舞台
+	var stage = new JTopo.Stage(canvas);//场景
+	//显示工具
+	var scene = new JTopo.Scene(stage);
+	var node = new JTopo.Node("Hello");
+	node.setLocation(10, 10);
+	scene.add(node);
+	var node2 = new JTopo.Node("Hello");
+	node2.setLocation(400, 200);
+	scene.add(node2);
+	var link1=new JTopo.Link(node,node2);
+	link1.paintText = paintTextAndRotate;
+	link1.strokeColor="255,0,255";//圆边
+	link1.text = '测试文字';
+	scene.add(link1)
+</script>
